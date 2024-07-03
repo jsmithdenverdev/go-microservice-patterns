@@ -33,7 +33,7 @@ func handleGreeting(logger *slog.Logger) http.Handler {
 			http.StatusOK,
 			GreetingResponse{Greeting: greeting}); err != nil {
 			logger.ErrorContext(r.Context(), "failed to encode greeting response", "error", err)
-			http.Error(w, ErrTextUnhandled, http.StatusInternalServerError)
+			http.Error(w, ErrUnhandled.Error(), http.StatusInternalServerError)
 			return
 		}
 	})

@@ -30,7 +30,7 @@ func run(ctx context.Context, w io.Writer, getenv func(string) string) error {
 
 	logger := slog.New(slog.NewJSONHandler(w, &slog.HandlerOptions{}))
 
-	srv := NewServer(logger)
+	srv := newServer(logger)
 
 	httpServer := &http.Server{
 		Addr:    net.JoinHostPort(config.Host, config.Port),

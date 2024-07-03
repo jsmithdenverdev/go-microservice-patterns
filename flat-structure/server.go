@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func NewServer(logger *slog.Logger) http.Handler {
+func newServer(logger *slog.Logger) http.Handler {
 	mux := http.NewServeMux()
 	addRoutes(mux, logger)
 	var handler http.Handler = mux

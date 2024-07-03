@@ -19,25 +19,21 @@ func handleGreeting(logger *slog.Logger) http.Handler {
 		req, err := decode[GreetingRequest](r)
 		if err != nil {
 			logger.ErrorContext(r.Context(), "failed to decode greeting request", "error", err)
-			if err := encode(
-				w, r,
-				http.StatusInternalServerError,
-				UnhandledError{Message: ErrorMessageUnhandled}); err != nil {
-				logger.ErrorContext(r.Context(), "failed to encode error response", "error", err)
-				return
-			}
+			http.Error(w, ErrUnhandled.Error(), http.StatusInternalServerError)
+			return
 		}
 
 		if req.Name == "" {
 			req.Name = "World"
 		}
 
-		greeting := fmt.Sprintf("Hello, %s", req.Name)
+		greeting := fmt.Sprintf("Hello, %s!", req.Name)
 
 		if err := encode(w, r,
 			http.StatusOK,
 			GreetingResponse{Greeting: greeting}); err != nil {
-			logger.ErrorContext(r.Context(), "failed to encode response", "error", err)
+			logger.ErrorContext(r.Context(), "failed to encode greeting response", "error", err)
+			http.Error(w, ErrTextUnhandled, http.StatusInternalServerError)
 			return
 		}
 	})

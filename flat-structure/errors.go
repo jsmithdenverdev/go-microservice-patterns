@@ -1,7 +1,9 @@
 package main
 
-const (
-	ErrorMessageUnhandled string = "request failed - please try again later"
+import "errors"
+
+var (
+	ErrUnhandled = errors.New("request failed - please try again")
 )
 
 type UnhandledError struct {
